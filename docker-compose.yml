@@ -1,0 +1,52 @@
+version: "2"
+services:
+
+  mongo:
+    image: mongo:3.6
+    command: --nojournal
+    ports:
+      - '27017:27017'
+    networks:
+      app_subnet:
+        ipv4_address: 172.16.1.6    
+  
+
+  openapithing:
+    build: ./OpenAPI_WoT/
+    ports:
+        - 5001:5000
+    links: 
+        - mongo
+    depends_on:
+        - mongo
+    volumes:
+        - ./OpenAPI_WoT:/code
+    networks:
+        app_subnet:
+            ipv4_address: 172.16.1.5 
+
+  nodered:
+    image: nodered/node-red:latest
+    environment:
+        - TZ=Europe/Athens
+    ports: 
+        - "1880:1880"
+    volumes:
+        - node-red-data:/data
+    links:
+        - mongo
+    networks:
+        app_subnet:
+            ipv4_address: 172.16.1.7 
+
+
+networks:
+  app_subnet: 
+    ipam:
+        config: 
+            - subnet: 172.16.1.0/24   
+
+volumes:
+  mysql-db:
+  mongo:
+  node-red-data:

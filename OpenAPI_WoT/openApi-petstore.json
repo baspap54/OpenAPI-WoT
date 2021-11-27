@@ -1,0 +1,1720 @@
+[
+    {
+        "id": "eecec5c9.d293c8",
+        "type": "tab",
+        "label": "openAPI red",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "546e9159.7d41",
+        "type": "inject",
+        "z": "eecec5c9.d293c8",
+        "name": "set id",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "321",
+        "payloadType": "num",
+        "x": 130,
+        "y": 140,
+        "wires": [
+            [
+                "11ab4cef.1f0cd3"
+            ]
+        ]
+    },
+    {
+        "id": "87fb087b.2e0848",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "2c6df600.c39c6a",
+        "type": "inject",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "5d60a096.605a9"
+            ]
+        ]
+    },
+    {
+        "id": "3bd38321.4e833c",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5d60a096.605a9",
+        "type": "openApi-red",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "openApiUrl": "https://petstore.swagger.io/v2/swagger.json",
+        "api": "pet",
+        "server": "",
+        "operation": "addPet",
+        "operationData": {
+            "tags": [
+                "pet"
+            ],
+            "summary": "Add a new pet to the store",
+            "description": "",
+            "operationId": "addPet",
+            "consumes": [
+                "application/json",
+                "application/xml"
+            ],
+            "produces": [
+                "application/json",
+                "application/xml"
+            ],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "body",
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "photoUrls"
+                        ],
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "format": "int64"
+                            },
+                            "category": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "xml": {
+                                    "name": "Category"
+                                },
+                                "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Category"
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "doggie"
+                            },
+                            "photoUrls": {
+                                "type": "array",
+                                "xml": {
+                                    "wrapped": true
+                                },
+                                "items": {
+                                    "type": "string",
+                                    "xml": {
+                                        "name": "photoUrl"
+                                    }
+                                }
+                            },
+                            "tags": {
+                                "type": "array",
+                                "xml": {
+                                    "wrapped": true
+                                },
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "xml": {
+                                        "name": "Tag"
+                                    },
+                                    "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Tag"
+                                }
+                            },
+                            "status": {
+                                "type": "string",
+                                "description": "pet status in the store",
+                                "enum": [
+                                    "available",
+                                    "pending",
+                                    "sold"
+                                ]
+                            }
+                        },
+                        "xml": {
+                            "name": "Pet"
+                        },
+                        "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Pet"
+                    }
+                }
+            ],
+            "responses": {
+                "405": {
+                    "description": "Invalid input"
+                }
+            },
+            "security": [
+                {
+                    "petstore_auth": [
+                        "write:pets",
+                        "read:pets"
+                    ]
+                }
+            ],
+            "__originalOperationId": "addPet",
+            "path": "/pet"
+        },
+        "errorHandling": "Standard",
+        "parameters": [
+            {
+                "id": "bodybody",
+                "name": "body",
+                "in": "body",
+                "required": true,
+                "value": "{\"id\": 321, \"name\": \"bes3t dog benny\"}",
+                "isActive": true,
+                "type": "json",
+                "allowedTypes": [
+                    "json",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "description": "Pet object that needs to be added to the store",
+                "schema": {
+                    "type": "object",
+                    "required": [
+                        "name",
+                        "photoUrls"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "category": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Category"
+                            },
+                            "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Category"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "doggie"
+                        },
+                        "photoUrls": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "string",
+                                "xml": {
+                                    "name": "photoUrl"
+                                }
+                            }
+                        },
+                        "tags": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "xml": {
+                                    "name": "Tag"
+                                },
+                                "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Tag"
+                            }
+                        },
+                        "status": {
+                            "type": "string",
+                            "description": "pet status in the store",
+                            "enum": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ]
+                        }
+                    },
+                    "xml": {
+                        "name": "Pet"
+                    },
+                    "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Pet"
+                },
+                "keys": [
+                    "name",
+                    "photoUrls",
+                    "category",
+                    "id",
+                    "status",
+                    "tags"
+                ]
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "",
+        "outputs": 1,
+        "x": 360,
+        "y": 100,
+        "wires": [
+            [
+                "3bd38321.4e833c"
+            ]
+        ]
+    },
+    {
+        "id": "11ab4cef.1f0cd3",
+        "type": "openApi-red",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "openApiUrl": "https://petstore.swagger.io/v2/swagger.json",
+        "api": "pet",
+        "server": "",
+        "operation": "getPetById",
+        "operationData": {
+            "name": "Finds Pets by status"
+        },
+        "errorHandling": "Standard",
+        "parameters": [
+            {
+                "name": "petId",
+                "in": "path",
+                "required": true,
+                "value": "payload",
+                "isActive": true,
+                "type": "msg",
+                "allowedTypes": [
+                    "num",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "description": "ID of pet to return"
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "",
+        "outputs": 1,
+        "x": 350,
+        "y": 140,
+        "wires": [
+            [
+                "87fb087b.2e0848"
+            ]
+        ]
+    },
+    {
+        "id": "81f648a.a13dbb8",
+        "type": "inject",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 480,
+        "wires": [
+            [
+                "7b0b589c.010518"
+            ]
+        ]
+    },
+    {
+        "id": "bc5a954c.210948",
+        "type": "switch",
+        "z": "eecec5c9.d293c8",
+        "name": "check msg.response.ok",
+        "property": "payload.ok",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 570,
+        "y": 480,
+        "wires": [
+            [
+                "423115ed.a74b2c"
+            ],
+            [
+                "c2f27279.70298"
+            ]
+        ]
+    },
+    {
+        "id": "423115ed.a74b2c",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "ok",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c2f27279.70298",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 770,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "379ceb6f.87fc64",
+        "type": "comment",
+        "z": "eecec5c9.d293c8",
+        "name": "Standard",
+        "info": "",
+        "x": 140,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "9edad4d7.c99418",
+        "type": "inject",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 580,
+        "wires": [
+            [
+                "d86e5d17.4cc13"
+            ]
+        ]
+    },
+    {
+        "id": "381d4523.7e3eea",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "ok",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 510,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "d3d1558.e8727a8",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 510,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "3e64e817.4ae0f8",
+        "type": "comment",
+        "z": "eecec5c9.d293c8",
+        "name": "Other output",
+        "info": "",
+        "x": 150,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "1e78345b.25293c",
+        "type": "inject",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 700,
+        "wires": [
+            [
+                "554a061.43990f8"
+            ]
+        ]
+    },
+    {
+        "id": "c502a9ca.77c868",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "ok",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 510,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "5aae1704.4f2018",
+        "type": "comment",
+        "z": "eecec5c9.d293c8",
+        "name": "Throw exception",
+        "info": "",
+        "x": 160,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "b85f329.467e4d",
+        "type": "catch",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 340,
+        "y": 740,
+        "wires": [
+            [
+                "3d30b8d8.f9b808"
+            ]
+        ]
+    },
+    {
+        "id": "3d30b8d8.f9b808",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 510,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "7b0b589c.010518",
+        "type": "openApi-red",
+        "z": "eecec5c9.d293c8",
+        "name": "set an error",
+        "openApiUrl": "https://petstore.swagger.io/v2/swagger.json",
+        "api": "pet",
+        "server": "",
+        "operation": "addPet",
+        "operationData": {
+            "name": "Update an existing pet"
+        },
+        "errorHandling": "Standard",
+        "parameters": [
+            {
+                "name": "body",
+                "in": "body",
+                "required": true,
+                "value": "{\"name\": \"bad cat\", \"photoUrls\": \"not an array\" }",
+                "isActive": true,
+                "type": "json",
+                "allowedTypes": [
+                    "json",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "description": "Pet object that needs to be added to the store",
+                "schema": {
+                    "type": "object",
+                    "required": [
+                        "name",
+                        "photoUrls"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "category": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Category"
+                            },
+                            "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Category"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "doggie"
+                        },
+                        "photoUrls": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "string",
+                                "xml": {
+                                    "name": "photoUrl"
+                                }
+                            }
+                        },
+                        "tags": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "xml": {
+                                    "name": "Tag"
+                                },
+                                "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Tag"
+                            }
+                        },
+                        "status": {
+                            "type": "string",
+                            "description": "pet status in the store",
+                            "enum": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ]
+                        }
+                    },
+                    "xml": {
+                        "name": "Pet"
+                    },
+                    "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Pet"
+                }
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "",
+        "outputs": 1,
+        "x": 330,
+        "y": 480,
+        "wires": [
+            [
+                "bc5a954c.210948"
+            ]
+        ]
+    },
+    {
+        "id": "7f148ae3.6365e4",
+        "type": "comment",
+        "z": "eecec5c9.d293c8",
+        "name": "Error handling",
+        "info": "",
+        "x": 150,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "688666ad.618928",
+        "type": "comment",
+        "z": "eecec5c9.d293c8",
+        "name": "pet shop swagger example",
+        "info": "",
+        "x": 180,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "d86e5d17.4cc13",
+        "type": "openApi-red",
+        "z": "eecec5c9.d293c8",
+        "name": "set an error",
+        "openApiUrl": "https://petstore.swagger.io/v2/swagger.json",
+        "api": "pet",
+        "server": "",
+        "operation": "addPet",
+        "operationData": {
+            "name": "Update an existing pet"
+        },
+        "errorHandling": "other output",
+        "parameters": [
+            {
+                "name": "body",
+                "in": "body",
+                "required": true,
+                "value": "{\"name\": \"bad cat\", \"photoUrls\": \"Not an array\"  }",
+                "isActive": true,
+                "type": "json",
+                "allowedTypes": [
+                    "json",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "description": "Pet object that needs to be added to the store",
+                "schema": {
+                    "type": "object",
+                    "required": [
+                        "name",
+                        "photoUrls"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "category": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Category"
+                            },
+                            "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Category"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "doggie"
+                        },
+                        "photoUrls": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "string",
+                                "xml": {
+                                    "name": "photoUrl"
+                                }
+                            }
+                        },
+                        "tags": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "xml": {
+                                    "name": "Tag"
+                                },
+                                "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Tag"
+                            }
+                        },
+                        "status": {
+                            "type": "string",
+                            "description": "pet status in the store",
+                            "enum": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ]
+                        }
+                    },
+                    "xml": {
+                        "name": "Pet"
+                    },
+                    "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Pet"
+                }
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "",
+        "outputs": 2,
+        "x": 330,
+        "y": 580,
+        "wires": [
+            [
+                "381d4523.7e3eea"
+            ],
+            [
+                "d3d1558.e8727a8"
+            ]
+        ]
+    },
+    {
+        "id": "554a061.43990f8",
+        "type": "openApi-red",
+        "z": "eecec5c9.d293c8",
+        "name": "set an error",
+        "openApiUrl": "https://petstore.swagger.io/v2/swagger.json",
+        "api": "pet",
+        "server": "",
+        "operation": "addPet",
+        "operationData": {
+            "name": "Update an existing pet"
+        },
+        "errorHandling": "throw exception",
+        "parameters": [
+            {
+                "name": "body",
+                "in": "body",
+                "required": true,
+                "value": "{\"name\": \"bad cat\", \"photoUrls\": \"Not an array\"  }",
+                "isActive": true,
+                "type": "json",
+                "allowedTypes": [
+                    "json",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "description": "Pet object that needs to be added to the store",
+                "schema": {
+                    "type": "object",
+                    "required": [
+                        "name",
+                        "photoUrls"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "category": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "xml": {
+                                "name": "Category"
+                            },
+                            "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Category"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "doggie"
+                        },
+                        "photoUrls": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "string",
+                                "xml": {
+                                    "name": "photoUrl"
+                                }
+                            }
+                        },
+                        "tags": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "xml": {
+                                    "name": "Tag"
+                                },
+                                "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Tag"
+                            }
+                        },
+                        "status": {
+                            "type": "string",
+                            "description": "pet status in the store",
+                            "enum": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ]
+                        }
+                    },
+                    "xml": {
+                        "name": "Pet"
+                    },
+                    "$$ref": "https://petstore.swagger.io/v2/swagger.json#/definitions/Pet"
+                }
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "",
+        "outputs": 1,
+        "x": 330,
+        "y": 700,
+        "wires": [
+            [
+                "c502a9ca.77c868"
+            ]
+        ]
+    },
+    {
+        "id": "b2539810.0e5e38",
+        "type": "inject",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 260,
+        "wires": [
+            [
+                "d7e1e394.36442"
+            ]
+        ]
+    },
+    {
+        "id": "267955d2.95f4ba",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "8e55f235.7095f",
+        "type": "inject",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 300,
+        "wires": [
+            [
+                "15b58528.50e91b"
+            ]
+        ]
+    },
+    {
+        "id": "8537b41.f6bda48",
+        "type": "debug",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "15b58528.50e91b",
+        "type": "openApi-red",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "openApiUrl": "https://petstore3.swagger.io/api/v3/openapi.json",
+        "api": "pet",
+        "server": "",
+        "alternServer": false,
+        "operation": "getPetById",
+        "operationData": {
+            "name": "Add a new pet to the store"
+        },
+        "errorHandling": "Standard",
+        "parameters": [
+            {
+                "id": "petIdpath",
+                "name": "petId",
+                "in": "path",
+                "required": true,
+                "value": "66",
+                "isActive": true,
+                "type": "num",
+                "allowedTypes": [
+                    "num",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "description": "ID of pet to return",
+                "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "keys": null
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "application/json",
+        "outputs": 1,
+        "x": 350,
+        "y": 300,
+        "wires": [
+            [
+                "8537b41.f6bda48"
+            ]
+        ]
+    },
+    {
+        "id": "d7e1e394.36442",
+        "type": "openApi-red",
+        "z": "eecec5c9.d293c8",
+        "name": "",
+        "openApiUrl": "https://petstore3.swagger.io/api/v3/openapi.json",
+        "api": "pet",
+        "server": "",
+        "alternServer": false,
+        "operation": "addPet",
+        "operationData": {
+            "tags": [
+                "pet"
+            ],
+            "summary": "Add a new pet to the store",
+            "description": "Add a new pet to the store",
+            "operationId": "addPet",
+            "requestBody": {
+                "description": "Create a new pet in the store",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "photoUrls"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "example": 10
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "doggie"
+                                },
+                                "category": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Dogs"
+                                        }
+                                    },
+                                    "xml": {
+                                        "name": "category"
+                                    },
+                                    "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
+                                },
+                                "photoUrls": {
+                                    "type": "array",
+                                    "xml": {
+                                        "wrapped": true
+                                    },
+                                    "items": {
+                                        "type": "string",
+                                        "xml": {
+                                            "name": "photoUrl"
+                                        }
+                                    }
+                                },
+                                "tags": {
+                                    "type": "array",
+                                    "xml": {
+                                        "wrapped": true
+                                    },
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "xml": {
+                                            "name": "tag"
+                                        },
+                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
+                                    }
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "description": "pet status in the store",
+                                    "enum": [
+                                        "available",
+                                        "pending",
+                                        "sold"
+                                    ]
+                                }
+                            },
+                            "xml": {
+                                "name": "pet"
+                            },
+                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
+                        }
+                    },
+                    "application/xml": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "photoUrls"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "example": 10
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "doggie"
+                                },
+                                "category": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Dogs"
+                                        }
+                                    },
+                                    "xml": {
+                                        "name": "category"
+                                    },
+                                    "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
+                                },
+                                "photoUrls": {
+                                    "type": "array",
+                                    "xml": {
+                                        "wrapped": true
+                                    },
+                                    "items": {
+                                        "type": "string",
+                                        "xml": {
+                                            "name": "photoUrl"
+                                        }
+                                    }
+                                },
+                                "tags": {
+                                    "type": "array",
+                                    "xml": {
+                                        "wrapped": true
+                                    },
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "xml": {
+                                            "name": "tag"
+                                        },
+                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
+                                    }
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "description": "pet status in the store",
+                                    "enum": [
+                                        "available",
+                                        "pending",
+                                        "sold"
+                                    ]
+                                }
+                            },
+                            "xml": {
+                                "name": "pet"
+                            },
+                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
+                        }
+                    },
+                    "application/x-www-form-urlencoded": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "photoUrls"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "example": 10
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "doggie"
+                                },
+                                "category": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Dogs"
+                                        }
+                                    },
+                                    "xml": {
+                                        "name": "category"
+                                    },
+                                    "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
+                                },
+                                "photoUrls": {
+                                    "type": "array",
+                                    "xml": {
+                                        "wrapped": true
+                                    },
+                                    "items": {
+                                        "type": "string",
+                                        "xml": {
+                                            "name": "photoUrl"
+                                        }
+                                    }
+                                },
+                                "tags": {
+                                    "type": "array",
+                                    "xml": {
+                                        "wrapped": true
+                                    },
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "xml": {
+                                            "name": "tag"
+                                        },
+                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
+                                    }
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "description": "pet status in the store",
+                                    "enum": [
+                                        "available",
+                                        "pending",
+                                        "sold"
+                                    ]
+                                }
+                            },
+                            "xml": {
+                                "name": "pet"
+                            },
+                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "responses": {
+                "200": {
+                    "description": "Successful operation",
+                    "content": {
+                        "application/xml": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "photoUrls"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "example": 10
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "doggie"
+                                    },
+                                    "category": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Dogs"
+                                            }
+                                        },
+                                        "xml": {
+                                            "name": "category"
+                                        },
+                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
+                                    },
+                                    "photoUrls": {
+                                        "type": "array",
+                                        "xml": {
+                                            "wrapped": true
+                                        },
+                                        "items": {
+                                            "type": "string",
+                                            "xml": {
+                                                "name": "photoUrl"
+                                            }
+                                        }
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "xml": {
+                                            "wrapped": true
+                                        },
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "xml": {
+                                                "name": "tag"
+                                            },
+                                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
+                                        }
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "pet status in the store",
+                                        "enum": [
+                                            "available",
+                                            "pending",
+                                            "sold"
+                                        ]
+                                    }
+                                },
+                                "xml": {
+                                    "name": "pet"
+                                },
+                                "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "photoUrls"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "example": 10
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "doggie"
+                                    },
+                                    "category": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Dogs"
+                                            }
+                                        },
+                                        "xml": {
+                                            "name": "category"
+                                        },
+                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
+                                    },
+                                    "photoUrls": {
+                                        "type": "array",
+                                        "xml": {
+                                            "wrapped": true
+                                        },
+                                        "items": {
+                                            "type": "string",
+                                            "xml": {
+                                                "name": "photoUrl"
+                                            }
+                                        }
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "xml": {
+                                            "wrapped": true
+                                        },
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "format": "int64"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "xml": {
+                                                "name": "tag"
+                                            },
+                                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
+                                        }
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "pet status in the store",
+                                        "enum": [
+                                            "available",
+                                            "pending",
+                                            "sold"
+                                        ]
+                                    }
+                                },
+                                "xml": {
+                                    "name": "pet"
+                                },
+                                "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
+                            }
+                        }
+                    }
+                },
+                "405": {
+                    "description": "Invalid input"
+                }
+            },
+            "security": [
+                {
+                    "petstore_auth": [
+                        "write:pets",
+                        "read:pets"
+                    ]
+                }
+            ],
+            "__originalOperationId": "addPet",
+            "path": "/pet"
+        },
+        "errorHandling": "Standard",
+        "parameters": [
+            {
+                "id": "requestBody",
+                "name": "Request body",
+                "in": "",
+                "schema": {
+                    "required": [
+                        "name",
+                        "photoUrls"
+                    ],
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 10
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "doggie"
+                        },
+                        "category": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Dogs"
+                                }
+                            },
+                            "xml": {
+                                "name": "category"
+                            },
+                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
+                        },
+                        "photoUrls": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "string",
+                                "xml": {
+                                    "name": "photoUrl"
+                                }
+                            }
+                        },
+                        "tags": {
+                            "type": "array",
+                            "xml": {
+                                "wrapped": true
+                            },
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "xml": {
+                                    "name": "tag"
+                                },
+                                "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
+                            }
+                        },
+                        "status": {
+                            "type": "string",
+                            "description": "pet status in the store",
+                            "enum": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ]
+                        }
+                    },
+                    "xml": {
+                        "name": "pet"
+                    },
+                    "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
+                },
+                "value": "{\"photoUrls\":[],\"id\":\"66\",\"name\":\"Krawallnudel Lili\"}",
+                "required": true,
+                "isActive": true,
+                "description": "Create a new pet in the store",
+                "type": "json",
+                "allowedTypes": [
+                    "json",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "keys": [
+                    "name",
+                    "photoUrls",
+                    "category",
+                    "id",
+                    "status",
+                    "tags"
+                ]
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "application/json",
+        "outputs": 1,
+        "x": 340,
+        "y": 260,
+        "wires": [
+            [
+                "267955d2.95f4ba"
+            ]
+        ]
+    },
+    {
+        "id": "86681ccb.d292f",
+        "type": "comment",
+        "z": "eecec5c9.d293c8",
+        "name": "pet shop openApi 3 example",
+        "info": "",
+        "x": 190,
+        "y": 220,
+        "wires": []
+    }
+]
