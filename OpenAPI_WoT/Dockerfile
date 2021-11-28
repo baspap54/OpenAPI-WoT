@@ -1,7 +1,3 @@
-FROM nodered/node-red
-RUN npm i swagger-client
-RUN npm install openapi-red
-
 FROM python:3.7-alpine
 
 WORKDIR /code
@@ -16,4 +12,3 @@ RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 5001
 CMD ["flask", "run"]
-

@@ -12,7 +12,7 @@ services:
   
 
   openapithing:
-    build: ./OpenAPI_WoT/
+    build: ./OpenAPI_WoT
     ports:
         - 5001:5000
     links: 
@@ -26,9 +26,9 @@ services:
             ipv4_address: 172.16.1.5 
 
   nodered:
-    image: nodered/node-red:latest
+    build: ./nodered
     environment:
-        - TZ=Europe/Athens
+        - TZ=Europe/Amsterdam
     ports: 
         - "1880:1880"
     volumes:
@@ -38,7 +38,6 @@ services:
     networks:
         app_subnet:
             ipv4_address: 172.16.1.7 
-
 
 networks:
   app_subnet: 
