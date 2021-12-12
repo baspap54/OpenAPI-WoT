@@ -1,6 +1,17 @@
 version: "2"
 services:
 
+  orion:
+    image: fiware/orion-ld
+    links:
+      - mongo
+    ports:
+      - "1026:1026"
+    networks:
+      app_subnet:
+        ipv4_address: 172.16.1.7
+    command: -dbhost mongo
+
   mongo:
     image: mongo:3.6
     command: --nojournal
@@ -23,7 +34,17 @@ services:
         - ./OpenAPI_WoT:/code
     networks:
         app_subnet:
-            ipv4_address: 172.16.1.5 
+            ipv4_address: 172.16.1.9
+
+  wotproxy:
+      build: ./WoTproxy/
+      ports:
+          - 5002:5000
+      links: 
+          - orion
+      networks:
+          app_subnet:
+              ipv4_address: 172.16.1.5
 
   nodered:
     build: ./nodered
@@ -37,7 +58,7 @@ services:
         - mongo
     networks:
         app_subnet:
-            ipv4_address: 172.16.1.7 
+            ipv4_address: 172.16.1.8
 
 networks:
   app_subnet: 
