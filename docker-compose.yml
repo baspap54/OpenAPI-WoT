@@ -58,6 +58,8 @@ services:
         - node-red-data:/data
     links:
         - mongo
+    depends_on:
+        - openapithing
     networks:
         app_subnet:
             ipv4_address: 172.16.1.8
