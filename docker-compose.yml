@@ -84,9 +84,6 @@ services:
             - "IOTA_MONGO_DB=iotagent-json"
             - "IOTA_HTTP_PORT=7896"
             - "IOTA_PROVIDER_URL=http://iot-agent:4041"
-            - "DUMMY_DEVICES_PORT=3001"
-            - "DUMMY_DEVICES_API_KEY=4jggokgpepnvsb2uv4s40d59ov"
-            - "DUMMY_DEVICES_TRANSPORT=HTTP"
         networks:
             app_subnet:
                 ipv4_address: 172.16.1.10
