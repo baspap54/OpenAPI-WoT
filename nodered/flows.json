@@ -1,0 +1,31 @@
+[
+    {
+        "id": "90aadc0d00dd95f9",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "mongo.db.things.find( {{ \"values.value\" : { $exists : true }}, { \"values.value\" : 1 }} )",
+        "payloadType": "jsonata",
+        "x": 170,
+        "y": 720,
+        "wires": [
+            [
+                "60e7a4db7cdcac0b"
+            ]
+        ]
+    }
+]
