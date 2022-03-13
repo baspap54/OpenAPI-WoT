@@ -89,7 +89,7 @@
                             "xml": {
                                 "name": "SubscriptionRequestBody"
                             },
-                            "$$ref": "http://172.16.1.1:5001/things/622719d5e414948dec80bcdc#/components/schemas/SubscriptionRequestBody"
+                            "$$ref": "http://172.16.1.1:5001/things/622a088ed66710395e36bebf#/components/schemas/SubscriptionRequestBody"
                         }
                     }
                 },
@@ -163,9 +163,9 @@
                     "xml": {
                         "name": "SubscriptionRequestBody"
                     },
-                    "$$ref": "http://172.16.1.1:5001/things/622719d5e414948dec80bcdc#/components/schemas/SubscriptionRequestBody"
+                    "$$ref": "http://172.16.1.1:5001/things/622a088ed66710395e36bebf#/components/schemas/SubscriptionRequestBody"
                 },
-                "value": "{\"name\":\"MySub\",\"description\":\"Test subscription\",\"type\":\"webhook (callback)\",\"callbackUrl\":\"http://172.16.1.1:5001\",\"resource\":\"state\"}",
+                "value": "{}",
                 "required": true,
                 "isActive": true,
                 "description": "Create a new subscription",
@@ -189,9 +189,9 @@
             }
         ],
         "requestContentType": "application/json",
-        "responseContentType": "",
+        "responseContentType": "application/json",
         "outputs": 1,
-        "x": 490,
+        "x": 450,
         "y": 400,
         "wires": [
             [
@@ -212,7 +212,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 730,
+        "x": 810,
         "y": 400,
         "wires": []
     },
@@ -874,7 +874,7 @@
         "name": "",
         "collection": "things",
         "operation": "find",
-        "x": 460,
+        "x": 480,
         "y": 580,
         "wires": [
             [
@@ -1028,7 +1028,7 @@
                 "p": "payload"
             }
         ],
-        "repeat": "5",
+        "repeat": "",
         "crontab": "",
         "once": true,
         "onceDelay": "0.2",
@@ -1036,11 +1036,9 @@
         "payload": "",
         "payloadType": "str",
         "x": 150,
-        "y": 720,
+        "y": 640,
         "wires": [
-            [
-                "60e7a4db7cdcac0b"
-            ]
+            []
         ]
     },
     {
@@ -1068,30 +1066,13 @@
         "name": "Find Temperature (ORION)",
         "collection": "entities",
         "operation": "find",
-        "x": 520,
-        "y": 720,
+        "x": 560,
+        "y": 740,
         "wires": [
             [
                 "19ca07b6919ae5e1"
             ]
         ]
-    },
-    {
-        "id": "8dbdcda7962788bc",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1150,
-        "y": 720,
-        "wires": []
     },
     {
         "id": "673ef30530c4b312",
@@ -1190,7 +1171,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 730,
+        "x": 810,
         "y": 460,
         "wires": []
     },
@@ -1205,7 +1186,7 @@
         "initialize": "// Code added here will be run once\n// whenever the node is started.\nfunction getRandomInt(max) {\n  return Math.floor(Math.random() * max);\n} \n\nvar randTemp = getRandomInt(60);\n\nif (flow.get(\"temp\") === undefined) {\n    flow.set(\"temp\", randTemp);\n}",
         "finalize": "",
         "libs": [],
-        "x": 620,
+        "x": 500,
         "y": 820,
         "wires": [
             [
@@ -1246,11 +1227,12 @@
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 170,
-        "y": 820,
+        "x": 110,
+        "y": 780,
         "wires": [
             [
-                "3966c0256ff36cca"
+                "3966c0256ff36cca",
+                "0643a19b8ac13469"
             ]
         ]
     },
@@ -1268,7 +1250,7 @@
         "proxy": "",
         "authType": "",
         "senderr": false,
-        "x": 390,
+        "x": 290,
         "y": 820,
         "wires": [
             [
@@ -1281,14 +1263,14 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "func": "console.log(\"too hot\");",
+        "func": "console.log(msg.payload[0].attrs.values.value.temp);",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1120,
-        "y": 600,
+        "x": 1160,
+        "y": 640,
         "wires": [
             []
         ]
@@ -1314,25 +1296,74 @@
         "type": "switch",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "property": "payload",
+        "property": "payload[0].attrs.values.value.temp",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "gt",
                 "v": "40",
                 "vt": "str"
+            },
+            {
+                "t": "lte",
+                "v": "40",
+                "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 1,
-        "x": 970,
+        "outputs": 2,
+        "x": 1010,
         "y": 680,
         "wires": [
             [
-                "1537361b86e71261",
-                "8dbdcda7962788bc"
+                "1537361b86e71261"
+            ],
+            [
+                "21eb06f8e6a98dbe"
             ]
+        ]
+    },
+    {
+        "id": "0643a19b8ac13469",
+        "type": "delay",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 280,
+        "y": 740,
+        "wires": [
+            [
+                "60e7a4db7cdcac0b"
+            ]
+        ]
+    },
+    {
+        "id": "21eb06f8e6a98dbe",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "console.log(\"Temperature is fine!\")",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1160,
+        "y": 720,
+        "wires": [
+            []
         ]
     },
     {
