@@ -315,6 +315,17 @@
         "summary": "Execute an unlock action",
         "description": "In response to an HTTP POST request on an Action URL with valid parameters as request body, an Extended Web Thing must either reject the request with the appropriate status code or queue a task to run the action and return the status of that action in a 201 Created response. The action may not run immediately. The Location HTTP header identifies the URL to use to retrieve the most recent update on the action's status.",
         "operationId": "executeUnlockAction",
+        "requestBody": {
+          "description": "Request body for the smart door unlock",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LockRequestBody"
+              }
+            }
+          },
+          "required": false
+        },
         "responses": {
           "204": {
             "description": "NO RESPONSE"

@@ -17,13 +17,803 @@
         "wires": []
     },
     {
-        "id": "054b2605eafa2836",
+        "id": "a77023ba0c97f3fa",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1390,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "82aa2752fd0ae44e",
+        "type": "mongodb in",
+        "z": "f6f2187d.f17ca8",
+        "mongodb": "688d2c635bb0f177",
+        "name": "",
+        "collection": "things",
+        "operation": "find",
+        "x": 1080,
+        "y": 200,
+        "wires": [
+            [
+                "a77023ba0c97f3fa"
+            ]
+        ]
+    },
+    {
+        "id": "60e7a4db7cdcac0b",
+        "type": "mongodb in",
+        "z": "f6f2187d.f17ca8",
+        "mongodb": "011089313ad7e882",
+        "name": "Find Temperature (ORION)",
+        "collection": "entities",
+        "operation": "find",
+        "x": 1260,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e28bb3ca4d63cc50",
         "type": "openApi-red",
         "z": "f6f2187d.f17ca8",
         "name": "",
-        "openApiUrl": "http://172.16.1.1:5001/things/622a088ed66710395e36bebf",
+        "openApiUrl": "http://172.16.1.1:5001/things/6238e9bee3447e4e4d13006f",
+        "api": "Properties",
+        "server": "",
+        "keepAuth": "",
+        "alternServer": false,
+        "operation": "retrieveTempProperty",
+        "operationData": {
+            "tags": [
+                "Properties"
+            ],
+            "summary": "Retrieve the value of a property (temperature)",
+            "description": "In response to an HTTP GET request on a Property URL, an Extended Web Thing must return an array that lists recent values of that Property.",
+            "operationId": "retrieveTempProperty",
+            "parameters": [
+                {
+                    "name": "page",
+                    "description": "Pagination first (page) parameter",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "$$ref": "http://172.16.1.1:5001/things/6238c6d039e3d721ea4d6b8e#/components/parameters/pageParam"
+                },
+                {
+                    "name": "perPage",
+                    "description": "Pagination second (per page) parameter",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "headers": {
+                        "Result-Count": {
+                            "schema": {
+                                "type": "integer",
+                                "example": 562
+                            },
+                            "description": "The Result-Count header contains the total number of results."
+                        }
+                    },
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "x-kindOf": "http://www.w3.org/ns/sosa/Observation",
+                                    "properties": {
+                                        "temp": {
+                                            "type": "integer",
+                                            "example": 25,
+                                            "x-kindOf": "http://www.w3.org/ns/sosa/hasSimpleResult"
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "x-kindOf": "http://www.w3.org/ns/sosa/resultTime"
+                                        }
+                                    },
+                                    "$$ref": "http://172.16.1.1:5001/things/6238c6d039e3d721ea4d6b8e#/components/schemas/TempMeasurement"
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Not found"
+                }
+            },
+            "__originalOperationId": "retrieveTempProperty",
+            "path": "/properties/temperature"
+        },
+        "errorHandling": "Standard",
+        "parameters": [
+            {
+                "id": "pagequery",
+                "name": "page",
+                "in": "query",
+                "required": false,
+                "value": "",
+                "isActive": false,
+                "type": "num",
+                "allowedTypes": [
+                    "num",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "description": "Pagination first (page) parameter",
+                "schema": {
+                    "type": "integer"
+                },
+                "keys": null
+            },
+            {
+                "id": "perPagequery",
+                "name": "perPage",
+                "in": "query",
+                "required": false,
+                "value": "",
+                "isActive": false,
+                "type": "num",
+                "allowedTypes": [
+                    "num",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "description": "Pagination second (per page) parameter",
+                "schema": {
+                    "type": "integer"
+                },
+                "keys": null
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "application/json",
+        "showDescription": true,
+        "outputs": 1,
+        "x": 540,
+        "y": 700,
+        "wires": [
+            [
+                "0c6af71784cebca9"
+            ]
+        ]
+    },
+    {
+        "id": "9398bbb288ce67bb",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "function getRandomInt(max) {\n  return Math.floor(Math.random() * max);\n} \n\nlet temp = getRandomInt(80);\nlet tempVal = temp.toString();\n\nmsg.payload = {\n    \"id\": \"DHT22_sensor_temperature\",\n    \"type\": \"property\",\n    \"Thing\": \"DHT22_sensor\",\n    \"name\": \"Temperature\",\n    \"property\": \"temperature\",\n    \"values\": {\n        \"temp\": tempVal,\n        \"timestamp\": \"2020-06-14T14:30:00.000Z\"\n    }\n};\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nfunction getRandomInt(max) {\n  return Math.floor(Math.random() * max);\n} \n\nvar randTemp = getRandomInt(60);\n\nif (flow.get(\"temp\") === undefined) {\n    flow.set(\"temp\", randTemp);\n}",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 820,
+        "wires": [
+            [
+                "df9b5d8d66c77b3a"
+            ]
+        ]
+    },
+    {
+        "id": "df9b5d8d66c77b3a",
+        "type": "http request",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://172.16.1.7:1026/v2/entities/?options=keyValues",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 770,
+        "y": 820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d1d5d7a287f3deb0",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "Inject",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 780,
+        "wires": [
+            [
+                "3966c0256ff36cca",
+                "0643a19b8ac13469"
+            ]
+        ]
+    },
+    {
+        "id": "3966c0256ff36cca",
+        "type": "http request",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "method": "DELETE",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://172.16.1.7:1026/v2/entities/DHT22_sensor_temperature",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 290,
+        "y": 820,
+        "wires": [
+            [
+                "9398bbb288ce67bb"
+            ]
+        ]
+    },
+    {
+        "id": "1537361b86e71261",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "console.log(msg.payload.body.temp);\nvar msg1 = { payload:\"UNLOCK DOOR\"};\nreturn msg1;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 620,
+        "wires": [
+            [
+                "e81b04fb31c6403e"
+            ]
+        ]
+    },
+    {
+        "id": "0c6af71784cebca9",
+        "type": "switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "property": "payload.body.temp",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "40",
+                "vt": "str"
+            },
+            {
+                "t": "lte",
+                "v": "40",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 750,
+        "y": 700,
+        "wires": [
+            [
+                "1537361b86e71261"
+            ],
+            [
+                "21eb06f8e6a98dbe"
+            ]
+        ]
+    },
+    {
+        "id": "0643a19b8ac13469",
+        "type": "delay",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 280,
+        "y": 740,
+        "wires": [
+            [
+                "e28bb3ca4d63cc50"
+            ]
+        ]
+    },
+    {
+        "id": "21eb06f8e6a98dbe",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "func": "console.log(\"Temperature is fine!\")\nvar msg2 = { payload:\"LOCK DOOR\"};\nreturn msg2;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 940,
+        "y": 780,
+        "wires": [
+            [
+                "a93b4123fb832ee4"
+            ]
+        ]
+    },
+    {
+        "id": "db3689c90a9ddcea",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 820,
+        "y": 200,
+        "wires": [
+            [
+                "82aa2752fd0ae44e"
+            ]
+        ]
+    },
+    {
+        "id": "a93b4123fb832ee4",
+        "type": "openApi-red",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "openApiUrl": "http://172.16.1.1:5001/things/6238e9b5e3447e4e4d13006e",
+        "api": "Actions",
+        "server": "",
+        "keepAuth": "",
+        "alternServer": false,
+        "operation": "executeLockAction",
+        "operationData": {
+            "tags": [
+                "Actions"
+            ],
+            "summary": "Execute a lock action",
+            "description": "In response to an HTTP POST request on an Action URL with valid parameters as request body, an Extended Web Thing must either reject the request with the appropriate status code or queue a task to run the action and return the status of that action in a 201 Created response. The action may not run immediately. The Location HTTP header identifies the URL to use to retrieve the most recent update on the action's status.",
+            "operationId": "executeLockAction",
+            "requestBody": {
+                "description": "Request body for the smart door lock",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "Thing",
+                                "name",
+                                "status",
+                                "timestamp",
+                                "type"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "example": "execution"
+                                },
+                                "Thing": {
+                                    "type": "string",
+                                    "example": "SmartDoor_actuator"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "lock"
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "example": "executing"
+                                },
+                                "timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "value": {
+                                    "type": "object",
+                                    "properties": {
+                                        "delay": {
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "example": 50
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "LockRequestBody"
+                            },
+                            "$$ref": "http://172.16.1.1:5001/things/6238bc7a69c65c81a53677d3#/components/schemas/LockRequestBody"
+                        }
+                    }
+                },
+                "required": false
+            },
+            "responses": {
+                "204": {
+                    "description": "NO RESPONSE"
+                },
+                "404": {
+                    "description": "Not found"
+                }
+            },
+            "__originalOperationId": "executeLockAction",
+            "path": "/actions/lock"
+        },
+        "errorHandling": "Standard",
+        "parameters": [
+            {
+                "id": "requestBody",
+                "name": "Request body",
+                "in": "",
+                "schema": {
+                    "required": [
+                        "Thing",
+                        "name",
+                        "status",
+                        "timestamp",
+                        "type"
+                    ],
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "example": "execution"
+                        },
+                        "Thing": {
+                            "type": "string",
+                            "example": "SmartDoor_actuator"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "lock"
+                        },
+                        "status": {
+                            "type": "string",
+                            "example": "executing"
+                        },
+                        "timestamp": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "value": {
+                            "type": "object",
+                            "properties": {
+                                "delay": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "example": 50
+                                }
+                            }
+                        }
+                    },
+                    "xml": {
+                        "name": "LockRequestBody"
+                    },
+                    "$$ref": "http://172.16.1.1:5001/things/6238bc7a69c65c81a53677d3#/components/schemas/LockRequestBody"
+                },
+                "value": "{\"type\":\"execution\",\"Thing\":\"SmartDoor_actuator\",\"name\":\"lock\",\"status\":\"executing\",\"timestamp\":\"2021-04-04T18:33:25.938Z\",\"value\":{\"delay\":50}}",
+                "required": false,
+                "isActive": true,
+                "description": "Request body for the smart door lock",
+                "type": "json",
+                "allowedTypes": [
+                    "json",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "keys": [
+                    "Thing",
+                    "name",
+                    "status",
+                    "timestamp",
+                    "type",
+                    "value"
+                ]
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "",
+        "showDescription": true,
+        "outputs": 1,
+        "x": 1170,
+        "y": 780,
+        "wires": [
+            [
+                "949a9850e368a41b"
+            ]
+        ]
+    },
+    {
+        "id": "e81b04fb31c6403e",
+        "type": "openApi-red",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "openApiUrl": "http://172.16.1.1:5001/things/6238e9b5e3447e4e4d13006e",
+        "api": "Actions",
+        "server": "",
+        "keepAuth": "",
+        "alternServer": false,
+        "operation": "executeUnlockAction",
+        "operationData": {
+            "tags": [
+                "Actions"
+            ],
+            "summary": "Execute an unlock action",
+            "description": "In response to an HTTP POST request on an Action URL with valid parameters as request body, an Extended Web Thing must either reject the request with the appropriate status code or queue a task to run the action and return the status of that action in a 201 Created response. The action may not run immediately. The Location HTTP header identifies the URL to use to retrieve the most recent update on the action's status.",
+            "operationId": "executeUnlockAction",
+            "requestBody": {
+                "description": "Request body for the smart door unlock",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "Thing",
+                                "name",
+                                "status",
+                                "timestamp",
+                                "type"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "example": "execution"
+                                },
+                                "Thing": {
+                                    "type": "string",
+                                    "example": "SmartDoor_actuator"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "lock"
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "example": "executing"
+                                },
+                                "timestamp": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "value": {
+                                    "type": "object",
+                                    "properties": {
+                                        "delay": {
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "example": 50
+                                        }
+                                    }
+                                }
+                            },
+                            "xml": {
+                                "name": "LockRequestBody"
+                            },
+                            "$$ref": "http://172.16.1.1:5001/things/6238e563e3447e4e4d13006d#/components/schemas/LockRequestBody"
+                        }
+                    }
+                },
+                "required": false
+            },
+            "responses": {
+                "204": {
+                    "description": "NO RESPONSE"
+                },
+                "404": {
+                    "description": "Not found"
+                }
+            },
+            "__originalOperationId": "executeUnlockAction",
+            "path": "/actions/unlock"
+        },
+        "errorHandling": "Standard",
+        "parameters": [
+            {
+                "id": "requestBody",
+                "name": "Request body",
+                "in": "",
+                "schema": {
+                    "required": [
+                        "Thing",
+                        "name",
+                        "status",
+                        "timestamp",
+                        "type"
+                    ],
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "example": "execution"
+                        },
+                        "Thing": {
+                            "type": "string",
+                            "example": "SmartDoor_actuator"
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "lock"
+                        },
+                        "status": {
+                            "type": "string",
+                            "example": "executing"
+                        },
+                        "timestamp": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "value": {
+                            "type": "object",
+                            "properties": {
+                                "delay": {
+                                    "type": "integer",
+                                    "format": "int32",
+                                    "example": 50
+                                }
+                            }
+                        }
+                    },
+                    "xml": {
+                        "name": "LockRequestBody"
+                    },
+                    "$$ref": "http://172.16.1.1:5001/things/6238e563e3447e4e4d13006d#/components/schemas/LockRequestBody"
+                },
+                "value": "{\"type\":\"execution\",\"Thing\":\"SmartDoor_actuator\",\"name\":\"unlock\",\"status\":\"executing\",\"timestamp\":\"2021-04-04T18:33:25.938Z\",\"value\":\"[object Object]\"}",
+                "required": false,
+                "isActive": true,
+                "description": "Request body for the smart door unlock",
+                "type": "json",
+                "allowedTypes": [
+                    "json",
+                    "jsonata",
+                    "msg",
+                    "flow",
+                    "global"
+                ],
+                "keys": [
+                    "Thing",
+                    "name",
+                    "status",
+                    "timestamp",
+                    "type",
+                    "value"
+                ]
+            }
+        ],
+        "requestContentType": "application/json",
+        "responseContentType": "",
+        "showDescription": true,
+        "outputs": 1,
+        "x": 1180,
+        "y": 620,
+        "wires": [
+            [
+                "53033c68950c2046"
+            ]
+        ]
+    },
+    {
+        "id": "949a9850e368a41b",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1390,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "53033c68950c2046",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1390,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "0d8151a7ada2cc4e",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 90,
+        "y": 480,
+        "wires": [
+            [
+                "25d3953c43374802"
+            ]
+        ]
+    },
+    {
+        "id": "25d3953c43374802",
+        "type": "openApi-red",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "openApiUrl": "http://172.16.1.1:5001/things/6238e9b5e3447e4e4d13006e",
         "api": "Subscriptions",
         "server": "",
+        "keepAuth": "",
         "alternServer": false,
         "operation": "createSubscription",
         "operationData": {
@@ -89,7 +879,7 @@
                             "xml": {
                                 "name": "SubscriptionRequestBody"
                             },
-                            "$$ref": "http://172.16.1.1:5001/things/622a088ed66710395e36bebf#/components/schemas/SubscriptionRequestBody"
+                            "$$ref": "http://172.16.1.1:5001/things/6238e563e3447e4e4d13006d#/components/schemas/SubscriptionRequestBody"
                         }
                     }
                 },
@@ -163,9 +953,9 @@
                     "xml": {
                         "name": "SubscriptionRequestBody"
                     },
-                    "$$ref": "http://172.16.1.1:5001/things/622a088ed66710395e36bebf#/components/schemas/SubscriptionRequestBody"
+                    "$$ref": "http://172.16.1.1:5001/things/6238e563e3447e4e4d13006d#/components/schemas/SubscriptionRequestBody"
                 },
-                "value": "{}",
+                "value": "{\"description\":\"A subscription to get info about SmartDoor_actuator\",\"subject\":{\"entities\":[{\"id\":\"SmartDoor_actuator\",\"type\":\"Thing\"}],\"condition\":{\"attrs\":[\"state\"]}},\"notification\":{\"http\":{\"url\":\"http://172.16.1.1:5002/accumulate\"},\"attrs\":[\"state\"]},\"expires\":\"2040-01-01T14:00:00.00Z\",\"throttling\":5}",
                 "required": true,
                 "isActive": true,
                 "description": "Create a new subscription",
@@ -189,18 +979,19 @@
             }
         ],
         "requestContentType": "application/json",
-        "responseContentType": "application/json",
+        "responseContentType": "",
+        "showDescription": true,
         "outputs": 1,
-        "x": 450,
-        "y": 400,
+        "x": 390,
+        "y": 480,
         "wires": [
             [
-                "fe6bb0f7eea58326"
+                "b3d85733f5d07ff4"
             ]
         ]
     },
     {
-        "id": "fe6bb0f7eea58326",
+        "id": "b3d85733f5d07ff4",
         "type": "debug",
         "z": "f6f2187d.f17ca8",
         "name": "",
@@ -208,1163 +999,12 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 810,
-        "y": 400,
+        "x": 710,
+        "y": 480,
         "wires": []
-    },
-    {
-        "id": "9ab26bddbe81fe90",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 200,
-        "y": 280,
-        "wires": [
-            [
-                "da198c02e1097f83"
-            ]
-        ]
-    },
-    {
-        "id": "da198c02e1097f83",
-        "type": "openApi-red",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "openApiUrl": "https://petstore3.swagger.io/api/v3/openapi.json",
-        "api": "pet",
-        "server": "",
-        "alternServer": false,
-        "operation": "addPet",
-        "operationData": {
-            "tags": [
-                "pet"
-            ],
-            "summary": "Add a new pet to the store",
-            "description": "Add a new pet to the store",
-            "operationId": "addPet",
-            "requestBody": {
-                "description": "Create a new pet in the store",
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "required": [
-                                "name",
-                                "photoUrls"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "integer",
-                                    "format": "int64",
-                                    "example": 10
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "example": "doggie"
-                                },
-                                "category": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "format": "int64",
-                                            "example": 1
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "Dogs"
-                                        }
-                                    },
-                                    "xml": {
-                                        "name": "category"
-                                    },
-                                    "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
-                                },
-                                "photoUrls": {
-                                    "type": "array",
-                                    "xml": {
-                                        "wrapped": true
-                                    },
-                                    "items": {
-                                        "type": "string",
-                                        "xml": {
-                                            "name": "photoUrl"
-                                        }
-                                    }
-                                },
-                                "tags": {
-                                    "type": "array",
-                                    "xml": {
-                                        "wrapped": true
-                                    },
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer",
-                                                "format": "int64"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "xml": {
-                                            "name": "tag"
-                                        },
-                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
-                                    }
-                                },
-                                "status": {
-                                    "type": "string",
-                                    "description": "pet status in the store",
-                                    "enum": [
-                                        "available",
-                                        "pending",
-                                        "sold"
-                                    ]
-                                }
-                            },
-                            "xml": {
-                                "name": "pet"
-                            },
-                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
-                        }
-                    },
-                    "application/xml": {
-                        "schema": {
-                            "required": [
-                                "name",
-                                "photoUrls"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "integer",
-                                    "format": "int64",
-                                    "example": 10
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "example": "doggie"
-                                },
-                                "category": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "format": "int64",
-                                            "example": 1
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "Dogs"
-                                        }
-                                    },
-                                    "xml": {
-                                        "name": "category"
-                                    },
-                                    "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
-                                },
-                                "photoUrls": {
-                                    "type": "array",
-                                    "xml": {
-                                        "wrapped": true
-                                    },
-                                    "items": {
-                                        "type": "string",
-                                        "xml": {
-                                            "name": "photoUrl"
-                                        }
-                                    }
-                                },
-                                "tags": {
-                                    "type": "array",
-                                    "xml": {
-                                        "wrapped": true
-                                    },
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer",
-                                                "format": "int64"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "xml": {
-                                            "name": "tag"
-                                        },
-                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
-                                    }
-                                },
-                                "status": {
-                                    "type": "string",
-                                    "description": "pet status in the store",
-                                    "enum": [
-                                        "available",
-                                        "pending",
-                                        "sold"
-                                    ]
-                                }
-                            },
-                            "xml": {
-                                "name": "pet"
-                            },
-                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
-                        }
-                    },
-                    "application/x-www-form-urlencoded": {
-                        "schema": {
-                            "required": [
-                                "name",
-                                "photoUrls"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "integer",
-                                    "format": "int64",
-                                    "example": 10
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "example": "doggie"
-                                },
-                                "category": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "format": "int64",
-                                            "example": 1
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "Dogs"
-                                        }
-                                    },
-                                    "xml": {
-                                        "name": "category"
-                                    },
-                                    "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
-                                },
-                                "photoUrls": {
-                                    "type": "array",
-                                    "xml": {
-                                        "wrapped": true
-                                    },
-                                    "items": {
-                                        "type": "string",
-                                        "xml": {
-                                            "name": "photoUrl"
-                                        }
-                                    }
-                                },
-                                "tags": {
-                                    "type": "array",
-                                    "xml": {
-                                        "wrapped": true
-                                    },
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer",
-                                                "format": "int64"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "xml": {
-                                            "name": "tag"
-                                        },
-                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
-                                    }
-                                },
-                                "status": {
-                                    "type": "string",
-                                    "description": "pet status in the store",
-                                    "enum": [
-                                        "available",
-                                        "pending",
-                                        "sold"
-                                    ]
-                                }
-                            },
-                            "xml": {
-                                "name": "pet"
-                            },
-                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
-                        }
-                    }
-                },
-                "required": true
-            },
-            "responses": {
-                "200": {
-                    "description": "Successful operation",
-                    "content": {
-                        "application/xml": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "photoUrls"
-                                ],
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "example": 10
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "example": "doggie"
-                                    },
-                                    "category": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer",
-                                                "format": "int64",
-                                                "example": 1
-                                            },
-                                            "name": {
-                                                "type": "string",
-                                                "example": "Dogs"
-                                            }
-                                        },
-                                        "xml": {
-                                            "name": "category"
-                                        },
-                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
-                                    },
-                                    "photoUrls": {
-                                        "type": "array",
-                                        "xml": {
-                                            "wrapped": true
-                                        },
-                                        "items": {
-                                            "type": "string",
-                                            "xml": {
-                                                "name": "photoUrl"
-                                            }
-                                        }
-                                    },
-                                    "tags": {
-                                        "type": "array",
-                                        "xml": {
-                                            "wrapped": true
-                                        },
-                                        "items": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "format": "int64"
-                                                },
-                                                "name": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "xml": {
-                                                "name": "tag"
-                                            },
-                                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
-                                        }
-                                    },
-                                    "status": {
-                                        "type": "string",
-                                        "description": "pet status in the store",
-                                        "enum": [
-                                            "available",
-                                            "pending",
-                                            "sold"
-                                        ]
-                                    }
-                                },
-                                "xml": {
-                                    "name": "pet"
-                                },
-                                "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
-                            }
-                        },
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "photoUrls"
-                                ],
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "example": 10
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "example": "doggie"
-                                    },
-                                    "category": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer",
-                                                "format": "int64",
-                                                "example": 1
-                                            },
-                                            "name": {
-                                                "type": "string",
-                                                "example": "Dogs"
-                                            }
-                                        },
-                                        "xml": {
-                                            "name": "category"
-                                        },
-                                        "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
-                                    },
-                                    "photoUrls": {
-                                        "type": "array",
-                                        "xml": {
-                                            "wrapped": true
-                                        },
-                                        "items": {
-                                            "type": "string",
-                                            "xml": {
-                                                "name": "photoUrl"
-                                            }
-                                        }
-                                    },
-                                    "tags": {
-                                        "type": "array",
-                                        "xml": {
-                                            "wrapped": true
-                                        },
-                                        "items": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "format": "int64"
-                                                },
-                                                "name": {
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "xml": {
-                                                "name": "tag"
-                                            },
-                                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
-                                        }
-                                    },
-                                    "status": {
-                                        "type": "string",
-                                        "description": "pet status in the store",
-                                        "enum": [
-                                            "available",
-                                            "pending",
-                                            "sold"
-                                        ]
-                                    }
-                                },
-                                "xml": {
-                                    "name": "pet"
-                                },
-                                "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
-                            }
-                        }
-                    }
-                },
-                "405": {
-                    "description": "Invalid input"
-                }
-            },
-            "security": [
-                {
-                    "petstore_auth": [
-                        "write:pets",
-                        "read:pets"
-                    ]
-                }
-            ],
-            "__originalOperationId": "addPet",
-            "path": "/pet"
-        },
-        "errorHandling": "Standard",
-        "parameters": [
-            {
-                "id": "requestBody",
-                "name": "Request body",
-                "in": "",
-                "schema": {
-                    "required": [
-                        "name",
-                        "photoUrls"
-                    ],
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "integer",
-                            "format": "int64",
-                            "example": 10
-                        },
-                        "name": {
-                            "type": "string",
-                            "example": "doggie"
-                        },
-                        "category": {
-                            "type": "object",
-                            "properties": {
-                                "id": {
-                                    "type": "integer",
-                                    "format": "int64",
-                                    "example": 1
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "example": "Dogs"
-                                }
-                            },
-                            "xml": {
-                                "name": "category"
-                            },
-                            "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Category"
-                        },
-                        "photoUrls": {
-                            "type": "array",
-                            "xml": {
-                                "wrapped": true
-                            },
-                            "items": {
-                                "type": "string",
-                                "xml": {
-                                    "name": "photoUrl"
-                                }
-                            }
-                        },
-                        "tags": {
-                            "type": "array",
-                            "xml": {
-                                "wrapped": true
-                            },
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "id": {
-                                        "type": "integer",
-                                        "format": "int64"
-                                    },
-                                    "name": {
-                                        "type": "string"
-                                    }
-                                },
-                                "xml": {
-                                    "name": "tag"
-                                },
-                                "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Tag"
-                            }
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "pet status in the store",
-                            "enum": [
-                                "available",
-                                "pending",
-                                "sold"
-                            ]
-                        }
-                    },
-                    "xml": {
-                        "name": "pet"
-                    },
-                    "$$ref": "https://petstore3.swagger.io/api/v3/openapi.json#/components/schemas/Pet"
-                },
-                "value": "{\"name\":\"doggie\",\"photoUrls\":[\"quis Excepteur laboris ipsum reprehenderit\",\"dolore eu est enim\"],\"id\":10,\"category\":{\"id\":1,\"name\":\"Dogs\"},\"tags\":[{\"id\":98661638,\"name\":\"in in ipsum ut\"},{\"id\":85993448,\"name\":\"Duis Excepteur proident occaecat minim\"}],\"status\":\"available\"}",
-                "required": true,
-                "isActive": true,
-                "description": "Create a new pet in the store",
-                "type": "json",
-                "allowedTypes": [
-                    "json",
-                    "jsonata",
-                    "msg",
-                    "flow",
-                    "global"
-                ],
-                "keys": [
-                    "name",
-                    "photoUrls",
-                    "category",
-                    "id",
-                    "status",
-                    "tags"
-                ]
-            }
-        ],
-        "requestContentType": "application/json",
-        "responseContentType": "application/xml",
-        "outputs": 1,
-        "x": 480,
-        "y": 280,
-        "wires": [
-            [
-                "8119fea0392a09a6"
-            ]
-        ]
-    },
-    {
-        "id": "8119fea0392a09a6",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 810,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "a77023ba0c97f3fa",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 810,
-        "y": 580,
-        "wires": []
-    },
-    {
-        "id": "82aa2752fd0ae44e",
-        "type": "mongodb in",
-        "z": "f6f2187d.f17ca8",
-        "mongodb": "688d2c635bb0f177",
-        "name": "",
-        "collection": "things",
-        "operation": "find",
-        "x": 480,
-        "y": 580,
-        "wires": [
-            [
-                "a77023ba0c97f3fa"
-            ]
-        ]
-    },
-    {
-        "id": "42ddc16752957dfb",
-        "type": "openApi-red",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "openApiUrl": "http://172.16.1.1:5001/things/6226826e6f30d4f7ea2c80a7",
-        "api": "Properties",
-        "server": "",
-        "alternServer": false,
-        "operation": "retrieveTempProperty",
-        "operationData": {
-            "tags": [
-                "Properties"
-            ],
-            "summary": "Retrieve the value of a property (temperature)",
-            "description": "In response to an HTTP GET request on a Property URL, an Extended Web Thing must return an array that lists recent values of that Property.",
-            "operationId": "retrieveTempProperty",
-            "parameters": [
-                {
-                    "name": "page",
-                    "description": "Pagination first (page) parameter",
-                    "in": "query",
-                    "required": false,
-                    "schema": {
-                        "type": "integer"
-                    },
-                    "$$ref": "http://172.16.1.1:5001/things/6226826e6f30d4f7ea2c80a7#/components/parameters/pageParam"
-                },
-                {
-                    "name": "perPage",
-                    "description": "Pagination second (per page) parameter",
-                    "in": "query",
-                    "required": false,
-                    "schema": {
-                        "type": "integer"
-                    }
-                }
-            ],
-            "responses": {
-                "200": {
-                    "description": "successful operation",
-                    "headers": {
-                        "Result-Count": {
-                            "schema": {
-                                "type": "integer",
-                                "example": 562
-                            },
-                            "description": "The Result-Count header contains the total number of results."
-                        }
-                    },
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "array",
-                                "items": {
-                                    "type": "object",
-                                    "x-kindOf": "http://www.w3.org/ns/sosa/Observation",
-                                    "properties": {
-                                        "temp": {
-                                            "type": "integer",
-                                            "example": 25,
-                                            "x-kindOf": "http://www.w3.org/ns/sosa/hasSimpleResult"
-                                        },
-                                        "timestamp": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "x-kindOf": "http://www.w3.org/ns/sosa/resultTime"
-                                        }
-                                    },
-                                    "$$ref": "http://172.16.1.1:5001/things/6226826e6f30d4f7ea2c80a7#/components/schemas/TempMeasurement"
-                                }
-                            }
-                        }
-                    }
-                },
-                "404": {
-                    "description": "Not found"
-                }
-            },
-            "__originalOperationId": "retrieveTempProperty",
-            "path": "/properties/temperature"
-        },
-        "errorHandling": "Standard",
-        "parameters": [
-            {
-                "id": "pagequery",
-                "name": "page",
-                "in": "query",
-                "required": false,
-                "value": "",
-                "isActive": false,
-                "type": "num",
-                "allowedTypes": [
-                    "num",
-                    "jsonata",
-                    "msg",
-                    "flow",
-                    "global"
-                ],
-                "description": "Pagination first (page) parameter",
-                "schema": {
-                    "type": "integer"
-                },
-                "keys": null
-            },
-            {
-                "id": "perPagequery",
-                "name": "perPage",
-                "in": "query",
-                "required": false,
-                "value": "",
-                "isActive": false,
-                "type": "num",
-                "allowedTypes": [
-                    "num",
-                    "jsonata",
-                    "msg",
-                    "flow",
-                    "global"
-                ],
-                "description": "Pagination second (per page) parameter",
-                "schema": {
-                    "type": "integer"
-                },
-                "keys": null
-            }
-        ],
-        "requestContentType": "application/json",
-        "responseContentType": "application/json",
-        "outputs": 1,
-        "x": 1080,
-        "y": 400,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "90aadc0d00dd95f9",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0.2",
-        "topic": "",
-        "payload": "",
-        "payloadType": "str",
-        "x": 150,
-        "y": 640,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "df2305654c4bd51a",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1030,
-        "y": 820,
-        "wires": []
-    },
-    {
-        "id": "60e7a4db7cdcac0b",
-        "type": "mongodb in",
-        "z": "f6f2187d.f17ca8",
-        "mongodb": "011089313ad7e882",
-        "name": "Find Temperature (ORION)",
-        "collection": "entities",
-        "operation": "find",
-        "x": 560,
-        "y": 740,
-        "wires": [
-            [
-                "19ca07b6919ae5e1"
-            ]
-        ]
-    },
-    {
-        "id": "673ef30530c4b312",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "props": [],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 190,
-        "y": 400,
-        "wires": [
-            [
-                "054b2605eafa2836"
-            ]
-        ]
-    },
-    {
-        "id": "d3389922f7568f3c",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "props": [
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 170,
-        "y": 460,
-        "wires": [
-            [
-                "e28bb3ca4d63cc50"
-            ]
-        ]
-    },
-    {
-        "id": "e28bb3ca4d63cc50",
-        "type": "openApi-red",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "openApiUrl": "http://172.16.1.1:5001/things/622a088ed66710395e36bebf",
-        "api": "Actions",
-        "server": "",
-        "alternServer": false,
-        "operation": "executeLockAction",
-        "operationData": {
-            "tags": [
-                "Actions"
-            ],
-            "summary": "Execute a lock action",
-            "description": "In response to an HTTP POST request on an Action URL with valid parameters as request body, an Extended Web Thing must either reject the request with the appropriate status code or queue a task to run the action and return the status of that action in a 201 Created response. The action may not run immediately. The Location HTTP header identifies the URL to use to retrieve the most recent update on the action's status.",
-            "operationId": "executeLockAction",
-            "responses": {
-                "204": {
-                    "description": "NO RESPONSE"
-                },
-                "404": {
-                    "description": "Not found"
-                }
-            },
-            "__originalOperationId": "executeLockAction",
-            "path": "/actions/lock"
-        },
-        "errorHandling": "Standard",
-        "parameters": [],
-        "requestContentType": "application/json",
-        "responseContentType": "application/json",
-        "outputs": 1,
-        "x": 450,
-        "y": 460,
-        "wires": [
-            [
-                "aa98d870c897f686"
-            ]
-        ]
-    },
-    {
-        "id": "aa98d870c897f686",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 810,
-        "y": 460,
-        "wires": []
-    },
-    {
-        "id": "9398bbb288ce67bb",
-        "type": "function",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "func": "function getRandomInt(max) {\n  return Math.floor(Math.random() * max);\n} \n\nlet temp = getRandomInt(60);\nlet tempVal = temp.toString();\n\nmsg.payload = {\n    \"id\": \"DHT22sensor_temperature\",\n    \"type\": \"property\",\n    \"Thing\": \"DHT22_sensor\",\n    \"name\": \"Temperature\",\n    \"property\": \"temperature\",\n    \"values\": {\n        \"temp\": tempVal,\n        \"timestamp\": \"2020-06-14T14:30:00.000Z\"\n    }\n};\nreturn msg;\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "// Code added here will be run once\n// whenever the node is started.\nfunction getRandomInt(max) {\n  return Math.floor(Math.random() * max);\n} \n\nvar randTemp = getRandomInt(60);\n\nif (flow.get(\"temp\") === undefined) {\n    flow.set(\"temp\", randTemp);\n}",
-        "finalize": "",
-        "libs": [],
-        "x": 500,
-        "y": 820,
-        "wires": [
-            [
-                "df9b5d8d66c77b3a"
-            ]
-        ]
-    },
-    {
-        "id": "df9b5d8d66c77b3a",
-        "type": "http request",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://172.16.1.7:1026/v2/entities/?options=keyValues",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "senderr": false,
-        "x": 830,
-        "y": 820,
-        "wires": [
-            [
-                "df2305654c4bd51a"
-            ]
-        ]
-    },
-    {
-        "id": "d1d5d7a287f3deb0",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "Inject",
-        "props": [],
-        "repeat": "5",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 110,
-        "y": 780,
-        "wires": [
-            [
-                "3966c0256ff36cca",
-                "0643a19b8ac13469"
-            ]
-        ]
-    },
-    {
-        "id": "3966c0256ff36cca",
-        "type": "http request",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "method": "DELETE",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "http://172.16.1.7:1026/v2/entities/DHT22sensor_temperature",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "senderr": false,
-        "x": 290,
-        "y": 820,
-        "wires": [
-            [
-                "9398bbb288ce67bb"
-            ]
-        ]
-    },
-    {
-        "id": "1537361b86e71261",
-        "type": "function",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "func": "console.log(msg.payload[0].attrs.values.value.temp);",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1160,
-        "y": 640,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "19ca07b6919ae5e1",
-        "type": "json",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "property": "payload[0].attrs.values.value.temp",
-        "action": "",
-        "pretty": false,
-        "x": 810,
-        "y": 680,
-        "wires": [
-            [
-                "0c6af71784cebca9"
-            ]
-        ]
-    },
-    {
-        "id": "0c6af71784cebca9",
-        "type": "switch",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "property": "payload[0].attrs.values.value.temp",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "gt",
-                "v": "40",
-                "vt": "str"
-            },
-            {
-                "t": "lte",
-                "v": "40",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 2,
-        "x": 1010,
-        "y": 680,
-        "wires": [
-            [
-                "1537361b86e71261"
-            ],
-            [
-                "21eb06f8e6a98dbe"
-            ]
-        ]
-    },
-    {
-        "id": "0643a19b8ac13469",
-        "type": "delay",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "pauseType": "delay",
-        "timeout": "1",
-        "timeoutUnits": "seconds",
-        "rate": "1",
-        "nbRateUnits": "1",
-        "rateUnits": "second",
-        "randomFirst": "1",
-        "randomLast": "5",
-        "randomUnits": "seconds",
-        "drop": false,
-        "allowrate": false,
-        "outputs": 1,
-        "x": 280,
-        "y": 740,
-        "wires": [
-            [
-                "60e7a4db7cdcac0b"
-            ]
-        ]
-    },
-    {
-        "id": "21eb06f8e6a98dbe",
-        "type": "function",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "func": "console.log(\"Temperature is fine!\")",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1160,
-        "y": 720,
-        "wires": [
-            []
-        ]
     },
     {
         "id": "688d2c635bb0f177",

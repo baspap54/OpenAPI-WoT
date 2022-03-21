@@ -39,7 +39,9 @@
     
 	    {% for thg in things_list %}
 	<tr>
-	   <td>{{ thg['_id'] }}</td><a href="172.16.1.1:5001/things/{{ thg['_id'] }}" ></a>
+	   <a href="http://172.16.1.1:5001/things/{{ thg['_id'] }}">URL</a>
+	   <td>{{ thg['_id'] }} <a href="172.16.1.1:5001/things/thg['_id']" ></a> </td>
+	   <td href="172.16.1.1:5001/things/thg['_id']"> </td>
 	   <br><br>
 	</tr>
 	{% endfor %}
