@@ -27,7 +27,9 @@ mongo = PyMongo(app)
 
 @app.route("/", methods=['GET'])
 def index():
-    return render_template('upload.html')
+	things_list = mongo.db.things.find()
+	return render_template('upload.html', things_list = things_list)
+
 
 def infoObject(td, userInput, version):
   info = userInput.get("info")

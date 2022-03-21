@@ -252,7 +252,8 @@ def retrieve_recent_action_exec(webthing,actionID):
   action_name = escape(actionID)
   action_name = str(action_name)
 
-  url = "http://172.16.1.7:1026/v2/entities?type=execution&q=action=='"+wt_name+"'&q=Thing=='"+wt_name+"'&options=keyValues"
+  #url = "http://172.16.1.7:1026/v2/entities?type=execution&q=action=='"+wt_name+"'&q=Thing=='"+wt_name+"'&options=keyValues"
+  url = "http://172.16.1.7:1026/v2/entities?type=execution&q=action=='"+action_name+"'&q=Thing=='"+wt_name+"'&options=keyValues"
 
   payload={}
   headers = {}
@@ -263,6 +264,53 @@ def retrieve_recent_action_exec(webthing,actionID):
 
 
 
+# # Execute an action
+# @app.route('/<webthing>/actions/<actionID>', methods=['POST'])
+# def execute_action(webthing,actionID):
+
+#   # the input name of the Thing
+#   wt_name = escape(webthing)
+#   wt_name = str(wt_name)
+#   # the input name of the action
+#   action_name = escape(actionID)
+#   action_name = str(action_name)
+
+#   # Validate the request body contains JSON
+#   if request.is_json:
+
+#     # Parse the JSON into a Python dictionary  
+#     req = request.data 
+
+#     new_id = random.randint(1,10000)
+
+#     url = "http://172.16.1.7:1026/v2/entities?options=keyValues"
+#     data = json.loads(req) 
+#     data['id'] = ""+str(new_id)+"" # append new id to the input JSON body including the action execution 
+#     payload = data 
+#     headers = {
+#       'Content-Type': 'application/json'
+#     }
+#     response = requests.post(url, json=payload)
+
+#     # if id already taken, try again 
+#     while (response.status_code) != 201:
+
+#       new_id = random.randint(1,10000) 
+#       new_id = int(new_id) + 10000
+
+#       url = "http://172.16.1.7:1026/v2/entities?options=keyValues"
+#       data = json.loads(req) 
+#       data['id'] = ""+str(new_id)+"" # append new id to the input JSON body including the action execution 
+#       payload = data 
+#       headers = {
+#         'Content-Type': 'application/json'
+#       }
+#       response = requests.post(url, json=payload)
+
+#     # return response code and header 
+#     resp = make_response("NO RESPONSE", 204)
+#     resp.headers['Location'] = "http://localhost:5000/"+wt_name+"/actions/"+action_name+"/"+str(new_id)+""
+#     return resp
 # Execute an action
 @app.route('/<webthing>/actions/<actionID>', methods=['POST'])
 def execute_action(webthing,actionID):
@@ -284,7 +332,7 @@ def execute_action(webthing,actionID):
 
     url = "http://172.16.1.7:1026/v2/entities?options=keyValues"
     data = json.loads(req) 
-    data['id'] = ""+str(new_id)+"" # append new id to the input JSON body including the action execution 
+    data['id'] = new_id # append new id to the input JSON body including the action execution 
     payload = data 
     headers = {
       'Content-Type': 'application/json'
@@ -292,25 +340,24 @@ def execute_action(webthing,actionID):
     response = requests.post(url, json=payload)
 
     # if id already taken, try again 
-    while (response.status_code) != 201:
+    # #while (response.status_code) != 201:
 
-      new_id = random.randint(1,10000) 
-      new_id = int(new_id) + 10000
+    # # new_id = random.randint(1,10000) 
+    # # new_id = int(new_id) + 10000
 
-      url = "http://172.16.1.7:1026/v2/entities?options=keyValues"
-      data = json.loads(req) 
-      data['id'] = ""+str(new_id)+"" # append new id to the input JSON body including the action execution 
-      payload = data 
-      headers = {
-        'Content-Type': 'application/json'
-      }
-      response = requests.post(url, json=payload)
+    # url = "http://172.16.1.7:1026/v2/entities?options=keyValues"
+    # data = json.loads(req) 
+    # data['id'] = ""+str(new_id)+"" # append new id to the input JSON body including the action execution 
+    # payload = data 
+    # headers = {
+    #   'Content-Type': 'application/json'
+    # }
+    # response = requests.post(url, json=payload)
 
     # return response code and header 
     resp = make_response("NO RESPONSE", 204)
-    resp.headers['Location'] = "http://localhost:5000/"+wt_name+"/actions/"+action_name+"/"+str(new_id)+""
+    resp.headers['Location'] = "http://172.16.1.1:5002/"+wt_name+"/actions/"+action_name+"/"+str(new_id)+""
     return resp
-
 
 
 

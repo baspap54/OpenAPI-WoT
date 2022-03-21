@@ -37,6 +37,12 @@
     <form action="/generator" class="dropzone">
     </form>
     
+	    {% for thg in things_list %}
+	<tr>
+	   <td>{{ thg['_id'] }}</td><a href="172.16.1.1:5001/things/{{ thg['_id'] }}" ></a>
+	   <br><br>
+	</tr>
+	{% endfor %}
 
 </body>
 </html>
