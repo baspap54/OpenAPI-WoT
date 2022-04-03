@@ -25,7 +25,7 @@
 	        </div>
 	      {% endfor %}
 
-    <form action = "/generator" method = "POST" 
+    <form action = "/mashupload" method = "POST" 
          enctype = "multipart/form-data">
          <input type = "file" name = "file" />
          <br><br>
@@ -33,33 +33,7 @@
          <input type = "reset"/>
       </form>  
       </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
-    <form action="/generator" class="dropzone">
+
     </form>
     
-	    {% for thg in things_list %}
-	<tr>
-	   <a href="http://172.16.1.1:5001/things/{{ thg['_id'] }}">URL</a>
-	   <td>{{ thg['_id'] }} <a href="172.16.1.1:5001/things/thg['_id']" ></a> </td>
-	   <td href="172.16.1.1:5001/things/thg['_id']"> </td>
-	   <br><br>
-	</tr>
-	{% endfor %}
-
-<body>
-<h1>Choose Location:</h1>
-<form action="/search" method="POST" autocomplete="on">
-<td><input type="text" name="loc" placeholder="Location" size="20" /></td>
-<td><button type="submit">Search</button></td>
-<button type="Reset" value="Reset">Reset</button></form>
-	    {% for thg in thing_loc %}
-	<tr>
-	   <a href="http://172.16.1.1:5001/things/{{ thg['_id'] }}">URL</a>
-	   <td>{{ thg['_id'] }} <a href="172.16.1.1:5001/things/thg['_id']" ></a> </td>
-	   <td href="172.16.1.1:5001/things/thg['_id']"> </td>
-	   <br><br>
-	</tr>
-	{% endfor %}
-
-</body>
 </html>

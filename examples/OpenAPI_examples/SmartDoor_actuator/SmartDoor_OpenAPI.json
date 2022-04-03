@@ -3,6 +3,7 @@
   "info": {
     "title": "Web Thing Model",
     "description": "This is a Web Thing Model server. You can find\nout more about Web Thing Model (W3C) at\n[https://www.w3.org/Submission/wot-model/](https://www.w3.org/Submission/wot-model/).\n",
+    "x-location" : "Chania",
     "contact": {
       "email": "atzavaras@isc.tuc.gr"
     },

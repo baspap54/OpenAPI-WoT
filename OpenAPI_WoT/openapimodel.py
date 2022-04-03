@@ -31,6 +31,19 @@ def index():
 	return render_template('upload.html', things_list = things_list)
 
 
+@app.route("/search", methods=['GET','POST'])
+def search():
+	#thingLoc  = list(mongo.db.things.find()) 
+	
+	loc = request.form['loc']
+	thingLoc = mongo.db.things.find({'info.x-location': loc})
+	return render_template('upload.html', thing_loc = thingLoc)
+
+@app.route("/mashup", methods=['GET'])
+def mashup():
+	apps_list = mongo.db.apps.find()
+	return render_template('mashup.html', apps_list = apps_list)
+
 def infoObject(td, userInput, version):
   info = userInput.get("info")
   infoObject = {}
@@ -715,6 +728,18 @@ def things(objid):
 		else:
 			flash("No Thing is stored")
 			return redirect(url_for('index'))
+
+@app.route('/mashupload', methods=['POST'])
+def mashupload():
+	file_ext = os.path.splitext(request.files['file'].filename)[1]
+	if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+		flash("This is not a valid app file!")
+		return redirect(url_for('mashup'))
+	flow = json.load(request.files['file'])
+	mongo.db.apps.insert_one(flow)
+	flash("Successfully uploaded application")
+	return redirect(url_for('mashup'))
+	
 
 if __name__ == '__main__':
       app.run(host='0.0.0.0', port=5000, debug=True)
