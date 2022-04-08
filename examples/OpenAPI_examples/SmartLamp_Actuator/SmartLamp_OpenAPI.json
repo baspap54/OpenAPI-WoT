@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Smart Door Actuator",
-    "description": "This is a Web Thing Model server. You can find\nout more about Web Thing Model (W3C) at\n[https://www.w3.org/Submission/wot-model/](https://www.w3.org/Submission/wot-model/).\n",
+    "title": "Smart Lamp Actuator",
+    "description": "This is an OpenAPI Description of a Smart Lamp actuator for the Web of Things.\n",
     "x-location" : "Chania",
     "contact": {
-      "email": "atzavaras@isc.tuc.gr"
+      "email": "vpapadopoulos1@isc.tuc.gr"
     },
     "license": {
       "name": "Apache 2.0",
@@ -19,7 +19,7 @@
   },
   "servers": [
     {
-      "url": "http://172.16.1.1:5002/SmartDoor_actuator",
+      "url": "http://172.16.1.1:5002/SmartLamp_actuator",
       "description": "SwaggerHub API Auto Mocking"
     }
   ],
@@ -121,7 +121,7 @@
         "tags": [
           "Properties"
         ],
-        "summary": "Retrieve the value of a property (door's current state)",
+        "summary": "Retrieve the value of a property (lamp's current state)",
         "description": "In response to an HTTP GET request on a Property URL, an Extended Web Thing must return an array that lists recent values of that Property.",
         "operationId": "retrieveProperty",
         "parameters": [
@@ -185,14 +185,14 @@
         }
       }
     },
-    "/actions/lock": {
+    "/actions/lampOn": {
       "get": {
         "tags": [
-          "Actions"
+          "Actions",
         ],
-        "summary": "Retrieve recent executions of the lock action",
+        "summary": "Retrieve recent executions of the switch on action of the Smart Lamp",
         "description": "In response to an HTTP GET request on an Action URL, an Extended Web Thing must return an array that lists the recent executions of a specific Action.",
-        "operationId": "retrieveRecentExecutionsOfLockAction",
+        "operationId": "retrieveRecentExecutionsOfLampOnAction",
         "responses": {
           "200": {
             "description": "successful operation",
@@ -216,15 +216,15 @@
         "tags": [
           "Actions"
         ],
-        "summary": "Execute a lock action",
+        "summary": "Switch on the Smart Lamp",
         "description": "In response to an HTTP POST request on an Action URL with valid parameters as request body, an Extended Web Thing must either reject the request with the appropriate status code or queue a task to run the action and return the status of that action in a 201 Created response. The action may not run immediately. The Location HTTP header identifies the URL to use to retrieve the most recent update on the action's status.",
-        "operationId": "executeLockAction",
+        "operationId": "executeLampOnAction",
         "requestBody": {
-          "description": "Request body for the smart door lock",
+          "description": "Request body to switch on the lamp",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LockRequestBody"
+                "$ref": "#/components/schemas/LampOnRequestBody"
               }
             }
           },
@@ -240,12 +240,12 @@
         }
       }
     },
-    "/actions/lock/{executionId}": {
+    "/actions/lampOn/{executionId}": {
       "get": {
         "tags": [
           "Actions"
         ],
-        "summary": "Retrieve the status of a lock action",
+        "summary": "Retrieve the status of the smart lamp's switch on action",
         "description": "In response to an HTTP GET request on the URL targeted by the Location HTTP header returned in response to the request to execute an action, an Extended Web Thing must return the status of this action or a 404 Not Found status code if the action's status is no longer available.",
         "parameters": [
           {
@@ -282,14 +282,14 @@
         }
       }
     },
-    "/actions/unlock": {
+    "/actions/lampOff": {
       "get": {
         "tags": [
           "Actions"
         ],
-        "summary": "Retrieve recent executions of the unlock action",
+        "summary": "Retrieve recent executions of the switch off action of the Smart Lamp",
         "description": "In response to an HTTP GET request on an Action URL, an Extended Web Thing must return an array that lists the recent executions of a specific Action.",
-        "operationId": "retrieveRecentExecutionsOfUnlockAction",
+        "operationId": "retrieveRecentExecutionsOfLampOffAction",
         "responses": {
           "200": {
             "description": "successful operation",
@@ -313,15 +313,15 @@
         "tags": [
           "Actions"
         ],
-        "summary": "Execute an unlock action",
+        "summary": "Switch Off the Smart Lamp",
         "description": "In response to an HTTP POST request on an Action URL with valid parameters as request body, an Extended Web Thing must either reject the request with the appropriate status code or queue a task to run the action and return the status of that action in a 201 Created response. The action may not run immediately. The Location HTTP header identifies the URL to use to retrieve the most recent update on the action's status.",
-        "operationId": "executeUnlockAction",
+        "operationId": "executeLampOffAction",
         "requestBody": {
-          "description": "Request body for the smart door unlock",
+          "description": "Request body for the smart lamp switch on",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LockRequestBody"
+                "$ref": "#/components/schemas/LampOnRequestBody"
               }
             }
           },
@@ -337,12 +337,12 @@
         }
       }
     },
-    "/actions/unlock/{executionId}": {
+    "/actions/lampOff/{executionId}": {
       "get": {
         "tags": [
           "Actions"
         ],
-        "summary": "Retrieve the status of an unlock action",
+        "summary": "Retrieve the status of the smart lamp's switch off action",
         "description": "In response to an HTTP GET request on the URL targeted by the Location HTTP header returned in response to the request to execute an action, an Extended Web Thing must return the status of this action or a 404 Not Found status code if the action's status is no longer available.",
         "parameters": [
           {
@@ -425,7 +425,7 @@
           "Subscriptions"
         ],
         "summary": "Create a subscription",
-        "description": "An Extended Web Thing should support subscriptions for the specific resource (DHT22).",
+        "description": "An Extended Web Thing should support subscriptions for the specific resource (Smart Lamp).",
         "operationId": "createSubscription",
         "x-operationType": "https://schema.org/CreateAction",
         "requestBody": {
@@ -534,17 +534,17 @@
         "properties": {
           "id": {
             "type": "string",
-            "default": "SmartDoor",
+            "default": "SmartLamp",
             "x-kindOf": "http://schema.org/identifier"
           },
           "name": {
             "type": "string",
-            "example": "IoTSmartDoor",
+            "example": "IoTSmartLamp",
             "x-kindOf": "http://schema.org/name"
           },
           "description": {
             "type": "string",
-            "example": "A Smart Door is an electronic door which can be sent commands to be locked or unlocked remotely. It can also report on its current state (OPEN, CLOSED or LOCKED).",
+            "example": "A Smart Lamp is an electronic lamp which can be switched ON or OFF remotely. It can also report on its current state (ON, OFF).",
             "x-refersTo": "http://schema.org/description"
           },
           "createdAt": {
@@ -559,7 +559,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "example": "smart door"
+              "example": "smart lamp"
             }
           }
         },
@@ -585,9 +585,8 @@
             "type": "string",
             "x-kindOf": "http://www.w3.org/ns/sosa/hasSimpleResult",
             "enum": [
-              "OPEN",
-              "CLOSED",
-              "LOCKED"
+              "ON",
+              "OFF"
             ]
           },
           "timestamp": {
@@ -614,7 +613,7 @@
           },
           "name": {
             "type": "string",
-            "example": "Smart door's current state",
+            "example": "Smart Lamp's current state",
             "x-kindOf": "http://schema.org/name"
           },
           "values": {
@@ -634,11 +633,11 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "lock"
+            "example": "lampOn"
           },
           "name": {
             "type": "string",
-            "example": "Lock the Smart Door"
+            "example": "Switch ON the Smart Lamp"
           }
         },
         "xml": {
@@ -671,14 +670,13 @@
           "name": "ActionExecution"
         }
       },
-       "LockRequestBody": {    
+       "LampOnRequestBody": {    
         "required": [
           "type",
           "Thing",
           "name", 
           "status",
-          "timestamp",
-          "value"
+          "timestamp"
         ],  
         "type": "object",
         "properties": {
@@ -688,11 +686,11 @@
           },
           "Thing": {
             "type": "string",
-            "example": "SmartDoor_actuator"
+            "example": "SmartLamp_actuator"
           },
           "name": {
             "type": "string",
-            "example": "lock"
+            "example": "lampOn"
           },
           "status": {
             "type": "string",
@@ -714,7 +712,7 @@
           }
         },
         "xml": {
-          "name": "LockRequestBody"
+          "name": "LampOnRequestBody"
         }
       },
       "SubscriptionRequestBody": {
@@ -728,11 +726,11 @@
         "properties": {
           "name": {
             "type": "string",
-            "example": "My subscription for SmartDoor's current state"
+            "example": "My subscription for SmartLamp's current state"
           },
           "description": {
             "type": "string",
-            "example": "A subscription to get info about SmartDoor's current state"
+            "example": "A subscription to get info about SmartLamp's current state"
           },
           "type": {
             "type": "string",
